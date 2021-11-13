@@ -5,8 +5,14 @@ import PropTypes from 'prop-types';
 
 
 class BoggleCube extends React.Component {  
-    renderCubeLetter(letter) {
-        return (<Cube letter={letter}></Cube>)
+    renderCubeLetter(letter, index) {
+        return (
+            <Cube 
+                key={index} 
+                letter={letter}
+            >
+            </Cube>
+        )
     }
 
     render() {
@@ -14,8 +20,8 @@ class BoggleCube extends React.Component {
 
         return (
             <div className="shopping-list">
-                { letters.map((letter) => (
-                    this.renderCubeLetter(letter)
+                { letters.map((letter, index) => (
+                    this.renderCubeLetter(letter, index)
                 ))}
             </div>
         );
