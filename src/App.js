@@ -33,22 +33,32 @@ class Game extends React.Component {
 
   
   getLettersForDisplay() {
-    return DICE_CONFIG.map((cube, index) => cube[this.state.cubeFaces[index]]);
+    return this.state.cubePositions.map((cubeNewPosition, index) => DICE_CONFIG[cubeNewPosition][this.state.cubeFaces[index]]);
   }
 
-  randomNum =(min, max) => { // min and max included 
+  randomNum = (min, max) => { 
+    // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  rearrangeArray = (array) => {
+    const newArray  = array.sort(() => Math.random() - 0.5);
+    // console.log(newArray);
+    return newArray;
   }
 
   shuffleBoard = () => {
     console.log('clicked');
+
+    // shuffle the individual letter cubes
     const newCubeFaces = this.state.cubeFaces.map(cube => {
       return this.randomNum(0, 5);
     });
-
-    // shuffle the individual letter cubes
     this.setState({cubeFaces: newCubeFaces});
 
+    // shuffle the placement of the letter cubes
+    const newCubePlacement = this.rearrangeArray(this.state.cubePositions);
+    this.setState({cubePositions: newCubePlacement});
   }
 
 
