@@ -1,18 +1,19 @@
 import BoggleCube from './BoggleCube';
 import React from 'react';
+import _ from 'lodash';
 import './App.css';
 
 
 let DICE_CONFIG = [
-  ['r', 'i', 'f', 'o', 'b', 'x'],
-  ['i', 'f', 'e', 'h', 'e', 'y'],
-  ['d', 'e', 'n', 'o', 'w', 's'],
-  ['u', 't', 'o', 'k', 'n', 'd'],
-  ['h', 'm', 's', 'r', 'a', 'o'],
-  ['l', 'u', 'p', 'e', 't', 's'],
-  ['a', 'c', 'i', 't', 'o', 'a'],
-  ['y', 'l', 'g', 'k', 'u', 'e'],
-  ['Qu', 'b', 'm', 'J', 'O', 'A'],
+  ['R', 'I', 'F', 'O', 'B', 'X'],
+  ['I', 'F', 'E', 'H', 'E', 'Y'],
+  ['D', 'E', 'N', 'O', 'w', 'S'],
+  ['U', 'T', 'O', 'K', 'N', 'D'],
+  ['H', 'M', 'S', 'R', 'A', 'O'],
+  ['L', 'U', 'P', 'E', 'T', 'S'],
+  ['A', 'C', 'I', 'T', 'O', 'A'],
+  ['Y', 'L', 'G', 'K', 'U', 'E'],
+  ['Qu', 'B', 'M', 'J', 'O', 'A'],
   ['E', 'H', 'I', 'S', 'P', 'N'],
   ['V', 'E', 'T', 'I', 'G', 'N'],
   ['B', 'A', 'L', 'I', 'Y', 'T'],
@@ -23,17 +24,10 @@ let DICE_CONFIG = [
 ];
 
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cubePositions: [1,4,2,3,5,9,6,7,8,10,0,14,12,11,13,15],
-      cubeFaces: [1,2,3,2,3,0,4,5,2,5,3,4,5,3,0,2],
-    };
-  };
-
-  
-  getLettersForDisplay() {
-    return this.state.cubePositions.map((cubeNewPosition, index) => DICE_CONFIG[cubeNewPosition][this.state.cubeFaces[index]]);
+  rearrangeArray = (array) => {
+    const newArray  = array.sort(() => Math.random() - 0.5);
+    // console.log(newArray);
+    return newArray;
   }
 
   randomNum = (min, max) => { 
@@ -41,10 +35,22 @@ class Game extends React.Component {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  rearrangeArray = (array) => {
-    const newArray  = array.sort(() => Math.random() - 0.5);
-    // console.log(newArray);
-    return newArray;
+  constructor(props) {
+    super(props);
+
+    const cubePosition = this.rearrangeArray(_.range(16));
+    const cubeFaces = cubePosition.map(cube => {
+      return this.randomNum(0, 5);
+    })
+
+    this.state = {
+      cubePositions: cubePosition,
+      cubeFaces: cubeFaces,
+    };
+  };
+
+  getLettersForDisplay = (cubePositions, cubeFaces) => {
+    return cubePositions.map((cubeNewPosition, index) => DICE_CONFIG[cubeNewPosition][cubeFaces[index]]);
   }
 
   shuffleBoard = () => {
@@ -63,7 +69,10 @@ class Game extends React.Component {
 
 
   render() {
-    const sampleBoard = this.getLettersForDisplay();
+    // const sampleBoard = this.getLettersForDisplay(this.state.cubePositions, this.state.cubeFaces);
+    const sampleBoard = this.getLettersForDisplay(
+      this.state.cubePositions, this.state.cubeFaces
+    );
 
     return (
       <div>
