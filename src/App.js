@@ -67,6 +67,29 @@ class Game extends React.Component {
     this.setState({cubePositions: newCubePlacement});
   }
 
+  splitLettersIntoRows = (letters, ettersPerRow = 4) => {
+    // TODO - can we make this more dynamic, what if we were to have 5x5 boggle?
+    if (letters.length < lettersPerRow * lettersPerRow) {
+        console.log('something went wrong, throw an error.')
+    }
+
+    return [
+        letters.slice(0, 4),
+        letters.slice(4, 8),
+        letters.slice(8, 12),
+        letters.slice(12, 16),
+    ]
+  }
+
+  rotateBoard = (lettersInRows) => {
+    console.log('TODO - write a function that will rotate the board of letters');
+    // You might need to save the displayed cubes Faces in the state because 
+    // I think we need state to update so that the props/display change downstream.
+
+
+
+  }
+
 
   render() {
     // const sampleBoard = this.getLettersForDisplay(this.state.cubePositions, this.state.cubeFaces);
@@ -78,6 +101,7 @@ class Game extends React.Component {
       <div>
         <BoggleCube letters={sampleBoard}></BoggleCube>
         <button className="square" onClick={this.shuffleBoard}>Shuffle board!</button>
+        <button className="square" onClick={this.rotateBoard}>Rotate board!</button>
       </div>
     );
   }

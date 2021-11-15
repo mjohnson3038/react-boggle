@@ -17,9 +17,10 @@ class BoggleCube extends React.Component {
 
     render() {
         const letters = this.props.letters;
+        console.log(letters);
 
         return (
-            <div className="shopping-list">
+            <div className="todo-set-class-name">
                 { letters.map((letter, index) => (
                     this.renderCubeLetter(letter, index)
                 ))}
